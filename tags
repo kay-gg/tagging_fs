@@ -1,0 +1,20 @@
+{
+  "tags": {
+    "tag2": {
+      "files": {
+        "test2": "\\\\?\\D:\\programming\\rust\\the-tagging-project\\tag-backend\\test2"
+      }
+    },
+    "tag1": {
+      "files": {
+        "test": "\\\\?\\D:\\programming\\rust\\the-tagging-project\\tag-backend\\test"
+      }
+    },
+    "tag3": {
+      "files": {
+        "test2": "\\\\?\\D:\\programming\\rust\\the-tagging-project\\tag-backend\\test2",
+        "test": "\\\\?\\D:\\programming\\rust\\the-tagging-project\\tag-backend\\test"
+      }
+    }
+  }
+}
