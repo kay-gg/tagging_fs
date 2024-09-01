@@ -75,9 +75,9 @@ impl Filesystem {
 	/// 
 	/// Removes files from each tag that are not in all tags
 	/// 
-	/// Returns a Tag containing all of those files
-	pub fn filter(&self, tags_vec: Vec<String>) -> Result<Tag, ErrorKind> {
-		let mut intersection = Tag::new();
+	/// Returns a ```Vec<String>``` of the filenames that have all the tags
+	pub fn filter(&self, tags_vec: Vec<String>) -> Result<Vec<String>, ErrorKind> {
+		let mut intersection = Vec::new();
 		let mut hashmap: HashMap<&String, i32> = HashMap::new();
 
 		// confirm tags exist in Filesystem
@@ -102,7 +102,7 @@ impl Filesystem {
 		// if number of times = number of tags, they intersect on all tags
 		for files in hashmap {
 			if files.1 as usize == tags_vec.len() {
-				intersection.add_file(files.0);
+				intersection.push(files.0.into());
 			}
 		}
 

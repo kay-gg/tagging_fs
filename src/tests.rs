@@ -105,9 +105,7 @@ fn removing_all_tags_from_f() {
 
 #[test]
 fn filtering_one_tag() {
-	let mut tag = Tag::new();
-	tag.add_file("./test");
-	tag.add_file("./test2");
+	let tag: Vec<String> = vec!["test".into(), "test2".into()];
 
 	let mut test = Filesystem::new();
 	let _ = test.create_tag("tag1");
@@ -128,10 +126,8 @@ fn filtering_one_tag() {
 /// 
 /// files that are in both tag1 and tag2 is test.
 #[test]
-fn filtering_twoplus_tags() {
-	let mut tag = Tag::new();
-	tag.add_file("./test");		
-
+fn filtering_twoplus_tags() {	
+	let tag: Vec<String> = vec!["test".into()];
 
 	let mut test = Filesystem::new();
 	let _ = test.create_tag("tag1");
