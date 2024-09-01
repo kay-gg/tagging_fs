@@ -113,7 +113,8 @@ fn filtering_one_tag() {
 	let _ = test.add_tags_to_file(vec!["./test".into(), "tag1".into()]); 
 	let _ = test.add_tags_to_file(vec!["./test2".into(), "tag1".into()]);
 	
-	let test_tag = test.filter(vec!["tag1".into()]).unwrap();
+	let mut test_tag = test.filter(vec!["tag1".into()]).unwrap();
+	test_tag.sort();
 
 	assert_eq!(tag, test_tag);
 }
@@ -142,7 +143,30 @@ fn filtering_twoplus_tags() {
 	assert_eq!(tag, test);
 }
 
+#[test]
+fn return_files() {
+	let files: Vec<String> = vec!["test".into(), "test2".into()];
 
+	let mut test = Filesystem::new();
+	let _ = test.create_tag("tag1");
+	let _ = test.create_tag("tag2");
+	let _ = test.create_tag("tag3");
+
+	let _ = test.add_tags_to_file(vec!["./test".into(), "tag1".into(), "tag2".into()]);
+	let _ = test.add_tags_to_file(vec!["./test2".into(), "tag1".into(), "tag3".into()]);
+
+	let mut test = test.return_files().unwrap();
+	test.sort();
+
+	assert_eq!(files, test);
+
+	let files: Option<Vec<String>> = None;
+	
+	let mut test = Filesystem::new();
+	let test = test.return_files();
+
+	assert_eq!(files, test);
+}
 
 #[test]
 fn empty_tag() {

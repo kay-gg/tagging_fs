@@ -1,6 +1,6 @@
 mod tests;
 
-use std::{collections::HashMap, io::ErrorKind, path::PathBuf};
+use std::{collections::HashMap, io::ErrorKind, path::PathBuf, ptr::NonNull};
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
@@ -107,6 +107,31 @@ impl Filesystem {
 		}
 
 		return Ok(intersection);
+	}
+
+	/// Returns files in filesystem.
+	/// 
+	/// If none, there are no files in the filesystem.
+	/// 
+	/// As this is used in frontend only, it returns file names only, not paths.
+	pub fn return_files(&self) -> Option<Vec<String>> {
+		let mut hash: HashMap<String, i8> = HashMap::new();
+
+		for tag_in_fs in self.tags.values() {
+			for files in tag_in_fs.files.keys() {
+				hash.insert(files.into(), 0);
+			}
+		}
+		let mut v: Vec<String> = Vec::new();
+		for files in hash.keys() {
+			v.push(files.into());
+		}
+		
+		if v.len() > 0 {
+			return Some(v);
+		} else {
+			return None;
+		}
 	}
 }
 
