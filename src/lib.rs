@@ -1,6 +1,6 @@
 mod tests;
 
-use std::{collections::HashMap, env, io::ErrorKind, path::PathBuf, ptr::NonNull};
+use std::{collections::{self, HashMap}, env, io::ErrorKind, path::PathBuf, ptr::NonNull};
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
@@ -170,10 +170,10 @@ impl Tag {
 	}
 	pub fn get_filename(path: &str) -> String {
 		let mut x: Vec<&str> = Vec::new();
-		if env::consts::OS == "windows" {
+		
+		x = path.split("/").collect();
+		if x.len() == 1 {
 			x = path.split("\\").collect();
-		} else {
-			x = path.split("/").collect();
 		}
 		let x = x.last().unwrap().to_owned();
 

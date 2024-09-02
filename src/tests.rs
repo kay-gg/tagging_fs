@@ -1,3 +1,5 @@
+use serde::de::IntoDeserializer;
+
 use super::*;
 
 #[test]
@@ -224,4 +226,16 @@ fn removing_file_twice() {
 	test.remove_file("./test2");
 
 	assert_eq!(tag, test);
+}
+
+#[test]
+fn filename() {
+	let filename = "test";
+
+	let mut test = Tag::new();
+	test.add_file("./test");
+	let test = test.files.keys().nth(0).unwrap();
+	
+	assert_eq!(filename, Tag::get_filename("D:\\programming\\rust\\the-tagging-project\\tag_fs\\test"));
+	assert_eq!(filename, test);
 }
