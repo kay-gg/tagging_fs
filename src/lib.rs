@@ -1,6 +1,6 @@
 mod tests;
 
-use std::{collections::{self, HashMap}, env, io::ErrorKind, path::PathBuf, ptr::NonNull};
+use std::{collections::HashMap, io::ErrorKind, path::PathBuf};
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
@@ -77,37 +77,44 @@ impl Filesystem {
 	/// Removes files from each tag that are not in all tags
 	/// 
 	/// Returns a ```Vec<String>``` of the filenames that have all the tags
-	pub fn filter(&self, tags_vec: Vec<String>) -> Result<Vec<String>, ErrorKind> {
-		let mut intersection = Vec::new();
-		let mut hashmap: HashMap<&String, i32> = HashMap::new();
-
-		// confirm tags exist in Filesystem
-		for tags in tags_vec.iter() {
-			if let None = self.tags.get(tags) {
-				return Err(ErrorKind::NotFound);
-			}
-		}
-		// add to hashmap
-		// hashmap contains <files, numbers of times files added>
-		for tags in tags_vec.iter() {
-			let tag_in_fs = self.tags.get(tags).unwrap();
-			for files in tag_in_fs.files.iter() {
-				if hashmap.contains_key(files.0) {
-					let key = hashmap.get_mut(files.0).unwrap();
-					*key += 1;
-				} else {
-					hashmap.insert(files.0, 1);
+	pub fn filter(&self, tags_vec: Option<Vec<String>>) -> Result<Vec<String>, ErrorKind> {
+		if tags_vec == None {
+			return Ok(self.return_files().unwrap());
+		} else {
+			let mut intersection = Vec::new();
+			let mut hashmap: HashMap<&String, i32> = HashMap::new();
+			let tags_vec = tags_vec.unwrap();
+			
+			// confirm tags exist in Filesystem
+			for tags in tags_vec.iter() {
+				if let None = self.tags.get(tags) {
+					return Err(ErrorKind::NotFound);
 				}
 			}
-		}
-		// if number of times = number of tags, they intersect on all tags
-		for files in hashmap {
-			if files.1 as usize == tags_vec.len() {
-				intersection.push(files.0.into());
+			// add to hashmap
+			// hashmap contains <files, numbers of times files added>
+	
+			for tags in tags_vec.iter() {
+				let tag_in_fs = self.tags.get(tags).unwrap();
+				for files in tag_in_fs.files.iter() {
+					if hashmap.contains_key(files.0) {
+						let key = hashmap.get_mut(files.0).unwrap();
+						*key += 1;
+					} else {
+						hashmap.insert(files.0, 1);
+					}
+				}
 			}
+			// if number of times = number of tags, they intersect on all tags
+			for files in hashmap {
+				if files.1 as usize == tags_vec.len() {
+					intersection.push(files.0.into());
+				}
+			}
+	
+			return Ok(intersection);
 		}
 
-		return Ok(intersection);
 	}
 
 	/// Returns files in filesystem.
@@ -147,7 +154,7 @@ impl Filesystem {
 		for tags in self.tags.keys() {
 			v.push(tags.clone());
 		}
-		
+
 		if v.len() > 1 {
 			return Some(v);
 		} else {

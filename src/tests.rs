@@ -115,7 +115,7 @@ fn filtering_one_tag() {
 	let _ = test.add_tags_to_file(vec!["./test".into(), "tag1".into()]); 
 	let _ = test.add_tags_to_file(vec!["./test2".into(), "tag1".into()]);
 	
-	let mut test_tag = test.filter(vec!["tag1".into()]).unwrap();
+	let mut test_tag = test.filter(Some(vec!["tag1".into()])).unwrap();
 	test_tag.sort();
 
 	assert_eq!(tag, test_tag);
@@ -140,7 +140,7 @@ fn filtering_twoplus_tags() {
 	let _ = test.add_tags_to_file(vec!["./test".into(), "tag1".into(), "tag2".into()]);
 	let _ = test.add_tags_to_file(vec!["./test2".into(), "tag1".into(), "tag3".into()]);
 
-	let test = test.filter(vec!["tag1".into(), "tag2".into()]).unwrap();
+	let test = test.filter(Some(vec!["tag1".into(), "tag2".into()])).unwrap();
 
 	assert_eq!(tag, test);
 }
