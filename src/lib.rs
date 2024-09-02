@@ -121,7 +121,7 @@ impl Filesystem {
 		// for each file in tag, insert into hashmap, this removes duplicate names.
 		for tags in self.tags.values() {
 			for files in tags.files.iter() {
-				hash.insert(files.0.clone(), 0);
+				hash.insert(files.1.clone(), 0);
 			}
 		}
 		// push filenames into a vec, now that there are no repeats
