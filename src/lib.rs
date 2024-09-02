@@ -1,6 +1,6 @@
 mod tests;
 
-use std::{collections::{self, HashMap}, env, io::ErrorKind, path::PathBuf, ptr::NonNull};
+use std::{collections::HashMap, io::ErrorKind, path::PathBuf};
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
@@ -150,7 +150,7 @@ impl Filesystem {
 		for tags in self.tags.keys() {
 			v.push(tags.clone());
 		}
-		
+
 		if v.len() > 1 {
 			return Some(v);
 		} else {
