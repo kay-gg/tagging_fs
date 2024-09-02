@@ -87,6 +87,9 @@ impl Filesystem {
 				return Err(ErrorKind::NotFound);
 			}
 		}
+		if tags_vec.len() == 0 {
+			return Ok(self.return_files().unwrap());
+		}
 		// add to hashmap
 		// hashmap contains <files, numbers of times files added>
 		for tags in tags_vec.iter() {
