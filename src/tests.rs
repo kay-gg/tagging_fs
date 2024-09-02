@@ -1,5 +1,3 @@
-use serde::de::IntoDeserializer;
-
 use super::*;
 
 #[test]
