@@ -112,7 +112,7 @@ impl Filesystem {
 
 	/// Returns files in filesystem.
 	/// 
-	/// If none, there are no files in the filesystem.
+	/// If None, there are no files in the filesystem.
 	/// 
 	/// As this is used in frontend only, it returns file names only, not paths.
 	pub fn return_files(&self) -> Option<Vec<String>> {
@@ -131,6 +131,24 @@ impl Filesystem {
 		}
 		
 		if v.len() > 0 {
+			return Some(v);
+		} else {
+			return None;
+		}
+	}
+	/// Returns tags in filesystem.
+	/// 
+	/// If None, there are no tags in the filesystem
+	/// 
+	/// Used in frontend
+	pub fn return_tags(&self) -> Option<Vec<String>> {
+		let mut v: Vec<String> = Vec::new();
+
+		for tags in self.tags.keys() {
+			v.push(tags.clone());
+		}
+		
+		if v.len() > 1 {
 			return Some(v);
 		} else {
 			return None;
@@ -172,6 +190,7 @@ impl Tag {
 		let mut x: Vec<&str> = Vec::new();
 		
 		x = path.split("/").collect();
+		// if path doesnt contain /'s, its probably windows path that uses \
 		if x.len() == 1 {
 			x = path.split("\\").collect();
 		}

@@ -235,7 +235,19 @@ fn filename() {
 	let mut test = Tag::new();
 	test.add_file("./test");
 	let test = test.files.keys().nth(0).unwrap();
-	
+
 	assert_eq!(filename, Tag::get_filename("D:\\programming\\rust\\the-tagging-project\\tag_fs\\test"));
 	assert_eq!(filename, test);
+}
+#[test]
+fn return_tags() {
+	let tags: Vec<String> = vec!["test1".into(), "test2".into()];
+	
+	let mut test = Filesystem::new();
+	let _ = test.create_tag("test1");
+	let _ = test.create_tag("test2");
+	let mut test = test.return_tags().unwrap();
+	test.sort();	
+
+	assert_eq!(tags, test);
 }
