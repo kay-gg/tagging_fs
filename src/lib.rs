@@ -1,7 +1,6 @@
 mod tests;
 
 use std::{collections::HashMap, io::ErrorKind, path::PathBuf};
-use std::{collections::HashMap, io::ErrorKind, path::PathBuf};
 use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
