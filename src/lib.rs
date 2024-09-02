@@ -5,6 +5,7 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
 pub struct Filesystem {
+	// <Tag name, Tag>
 	tags: HashMap<String, Tag>,
 }
 impl Filesystem {
@@ -115,13 +116,15 @@ impl Filesystem {
 	/// 
 	/// As this is used in frontend only, it returns file names only, not paths.
 	pub fn return_files(&self) -> Option<Vec<String>> {
+		// could be changed to a hashset
 		let mut hash: HashMap<String, i8> = HashMap::new();
-
-		for tag_in_fs in self.tags.values() {
-			for files in tag_in_fs.files.keys() {
-				hash.insert(files.into(), 0);
+		// for each file in tag, insert into hashmap, this removes duplicate names.
+		for tags in self.tags.values() {
+			for files in tags.files.iter() {
+				hash.insert(files.0.clone(), 0);
 			}
 		}
+		// push filenames into a vec, now that there are no repeats
 		let mut v: Vec<String> = Vec::new();
 		for files in hash.keys() {
 			v.push(files.into());
@@ -137,6 +140,7 @@ impl Filesystem {
 
 #[derive(Serialize, Deserialize, PartialEq, Debug)]
 pub struct Tag {
+	// <filename, absolute path>
 	files: HashMap<String, String>,
 }
 impl Tag {
