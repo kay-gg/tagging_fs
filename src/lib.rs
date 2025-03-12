@@ -38,6 +38,7 @@ impl Filesystem {
 		let path = tags_vec.remove(0);
 
 		for t in tags_vec {
+			// if our tag exists, add path to that tag.
 			if let Some(tag) = self.tags.get_mut(&t) {
 				tag.add_file(&path);
 			} else {

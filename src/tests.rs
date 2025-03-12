@@ -104,6 +104,31 @@ fn removing_all_tags_from_f() {
 }
 
 #[test]
+fn filtering_by_bad_tags() {
+	let mut test = Filesystem::new();
+
+	test.create_tag("tag1");
+	let test = test.filter(vec!["wrongtag".into()]);
+
+	assert_eq!(Err(ErrorKind::NotFound), test);
+}
+#[test]
+fn filtering_no_tags() {
+	let tag: Vec<String> = vec!["test".into(), "test2".into()];
+	
+	let mut test = Filesystem::new();
+	let _ = test.create_tag("tag1");
+
+	let _ = test.add_tags_to_file(vec!["./test".into(), "tag1".into()]); 
+	let _ = test.add_tags_to_file(vec!["./test2".into(), "tag1".into()]);
+
+	let mut test_tag = test.filter(vec![]).unwrap();
+	test_tag.sort();
+
+	assert_eq!(tag, test_tag);
+
+}
+#[test]
 fn filtering_one_tag() {
 	let tag: Vec<String> = vec!["test".into(), "test2".into()];
 
